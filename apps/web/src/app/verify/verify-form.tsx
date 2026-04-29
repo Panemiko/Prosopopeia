@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Field,
   FieldError,
@@ -13,6 +14,7 @@ import {
   InputOTPSlot,
 } from "@prosopopeia/ui/components/input-otp";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -21,6 +23,8 @@ const formSchema = z.object({
 });
 
 export function VerifyForm({ email }: { email: string }) {
+  const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       otpCode: "",
@@ -29,7 +33,22 @@ export function VerifyForm({ email }: { email: string }) {
       onSubmit: formSchema,
     },
     async onSubmit({ value }) {
-      toast.success("Form submitted successfully");
+      const { data, error } = await authClient.signIn.emailOtp({
+        email,
+        otp: value.otpCode,
+      });
+
+      if (error) {
+        toast.error("Erro ao entrar. Tente novamente mais tarde");
+        return;
+      }
+
+      if (data.user.name) {
+        router.push(`/applications`);
+        return;
+      }
+
+      router.push("/onboarding");
     },
   });
 
