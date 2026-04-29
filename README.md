@@ -1,6 +1,6 @@
 # Prosopopeia
 
-- [ ] Arrumar ambiente do projeto
+- [x] Arrumar ambiente do projeto
 - [ ] Configurar um novo estilo pro ShadCN
 - [ ] Criar a primeira página (login)
 - [ ] Criar página de verificação
