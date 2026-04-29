@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@prosopopeia/auth": "workspace:*",
     "@prosopopeia/env": "workspace:*",
     "@prosopopeia/ui": "workspace:*",
@@ -20,6 +21,7 @@
     "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-hook-form": "^7.74.0",
     "sonner": "catalog:",
     "zod": "catalog:"
   },

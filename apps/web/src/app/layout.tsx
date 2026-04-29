@@ -29,7 +29,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("font-sans", inter.variable, outfitHeading.variable)}
     >
-      <body className={`antialiased`}>
+      <body className={`antialiased pt-28`}>
         <Providers>
           <Header />
           {children}
