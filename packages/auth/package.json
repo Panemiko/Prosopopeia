@@ -1,0 +1,24 @@
+{
+  "name": "@prosopopeia/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@prosopopeia/db": "workspace:*",
+    "@prosopopeia/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@prosopopeia/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
