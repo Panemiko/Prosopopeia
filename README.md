@@ -1,7 +1,7 @@
 # Prosopopeia
 
 - [x] Arrumar ambiente do projeto
-- [ ] Configurar um novo estilo pro ShadCN
+- [x] Configurar um novo estilo pro ShadCN
 - [ ] Criar a primeira página (login)
 - [ ] Criar página de verificação
 - [ ] Configurar o E-mail OTP do Better Auth

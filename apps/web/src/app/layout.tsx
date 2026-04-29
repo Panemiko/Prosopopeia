@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter, Outfit } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 
 import Providers from "@/components/providers";
 import { cn } from "@prosopopeia/ui/lib/utils";
 import "../index.css";
+import { Header } from "./header";
 
 const outfitHeading = Outfit({
   subsets: ["latin"],
@@ -11,16 +12,6 @@ const outfitHeading = Outfit({
 });
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "prosopopeia",
@@ -38,10 +29,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("font-sans", inter.variable, outfitHeading.variable)}
     >
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Providers>{children}</Providers>
+      <body className={`antialiased`}>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
