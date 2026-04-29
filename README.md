@@ -8,7 +8,7 @@
 - [x] Integrar a autenticação com as páginas de login
 - [x] Criar o formulário de cadastro de informações
 - [x] Implementar formulário na página de onboarding
-- [ ] Adicionar "profile" no schema do DB
+- [x] Adicionar "profile" no schema do DB
 - [ ] Registrar informações no DB
 
 - [ ] Listagem de vagas com mockup
