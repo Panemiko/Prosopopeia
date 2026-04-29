@@ -20,7 +20,7 @@ const formSchema = z.object({
   otpCode: z.string().length(6),
 });
 
-export function VerifyForm() {
+export function VerifyForm({ email }: { email: string }) {
   const form = useForm({
     defaultValues: {
       otpCode: "",

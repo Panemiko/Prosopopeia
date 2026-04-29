@@ -6,9 +6,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@prosopopeia/ui/components/card";
+import { redirect } from "next/navigation";
+import z from "zod";
 import { VerifyForm } from "./verify-form";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ email: string }>;
+}) {
+  const { email } = await searchParams;
+  const { success } = await z.email().safeParseAsync(email);
+
+  if (!success) {
+    redirect("/login");
+  }
+
   return (
     <MaxWidth>
       <Card className="max-w-sm mx-auto">
@@ -19,7 +32,7 @@ export default async function Page() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <VerifyForm />
+          <VerifyForm email={email} />
         </CardContent>
       </Card>
     </MaxWidth>

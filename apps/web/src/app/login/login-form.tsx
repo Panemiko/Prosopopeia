@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { Button } from "@prosopopeia/ui/components/button";
 import {
   Field,
@@ -9,6 +10,7 @@ import {
 } from "@prosopopeia/ui/components/field";
 import { Input } from "@prosopopeia/ui/components/input";
 import { useForm } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -17,6 +19,8 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -25,7 +29,17 @@ export function LoginForm() {
       onSubmit: formSchema,
     },
     async onSubmit({ value }) {
-      toast.success("Form submitted successfully");
+      const { data, error } = await authClient.emailOtp.sendVerificationOtp({
+        email: value.email,
+        type: "sign-in",
+      });
+
+      if (error) {
+        toast.error("Erro ao entrar. Tente novamente mais tarde");
+        return;
+      }
+
+      router.push(`/verify?email=${value.email}`);
     },
   });
 
