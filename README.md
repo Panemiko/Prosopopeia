@@ -4,7 +4,7 @@
 - [x] Configurar um novo estilo pro ShadCN
 - [x] Criar a primeira página (login)
 - [x] Criar página de verificação
-- [ ] Configurar o E-mail OTP do Better Auth
+- [x] Configurar o E-mail OTP do Better Auth
 - [ ] Integrar a autenticação com as páginas de login
 - [ ] Criar o formulário de cadastro de informações
 - [ ] Implementar formulário na página de onboarding
