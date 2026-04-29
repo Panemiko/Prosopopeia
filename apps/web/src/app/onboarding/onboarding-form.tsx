@@ -1,6 +1,7 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
+import { userProfileSchema } from "@/lib/schema";
+import { editUserProfileAction } from "@/server/user";
 import { Button } from "@prosopopeia/ui/components/button";
 import {
   Field,
@@ -21,99 +22,37 @@ import {
 } from "@prosopopeia/ui/components/select";
 import { Textarea } from "@prosopopeia/ui/components/textarea";
 import { useForm } from "@tanstack/react-form";
-import { PlusIcon, Trash2Icon, XIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon, Trash2Icon, XIcon } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
 
-const formSchema = z.object({
+const formSchema = userProfileSchema.extend({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z.string().email("E-mail inválido").trim().min(1),
-  phone: z.string().min(8, "Telefone inválido"),
-  city: z.string().min(2, "Cidade inválida"),
-  linkedin: z.string().url("URL do LinkedIn inválida").or(z.literal("")),
-  github: z.string().url("URL do GitHub inválida").or(z.literal("")),
-  portfolio: z.string().url("URL do portfólio inválida").or(z.literal("")),
-  role: z.string().min(2, "Cargo inválido"),
-  description: z
-    .string()
-    .min(10, "Descrição deve ter pelo menos 10 caracteres"),
-  experiences: z.array(
-    z.object({
-      company: z.string().min(2, "Empresa inválida"),
-      role: z.string().min(2, "Cargo inválido"),
-      startDate: z.string().min(4, "Data de início inválida"),
-      endDate: z.string().optional(),
-      description: z
-        .string()
-        .min(10, "Descrição deve ter pelo menos 10 caracteres"),
-    }),
-  ),
-  projects: z.array(
-    z.object({
-      name: z.string().min(2, "Nome do projeto inválido"),
-      link: z.string().url("URL do projeto inválida").or(z.literal("")),
-      description: z
-        .string()
-        .min(10, "Descrição deve ter pelo menos 10 caracteres"),
-    }),
-  ),
-  education: z.array(
-    z.object({
-      institution: z.string().min(2, "Instituição inválida"),
-      degree: z.string().min(2, "Formação inválida"),
-      startDate: z.string().min(4, "Data de início inválida"),
-      endDate: z.string().min(4, "Data de fim inválida"),
-    }),
-  ),
-  languages: z.array(
-    z.object({
-      language: z.string().min(2, "Idioma inválido"),
-      level: z.string().min(2, "Nível inválido"),
-    }),
-  ),
-  skills: z.array(z.string().min(1, "Habilidade inválida")),
 });
-
-interface FormValues {
-  name: string;
-  email: string;
-  phone: string;
-  city: string;
-  linkedin: string;
-  github: string;
-  portfolio: string;
-  role: string;
-  description: string;
-  experiences: {
-    company: string;
-    role: string;
-    startDate: string;
-    endDate?: string;
-    description: string;
-  }[];
-  projects: {
-    name: string;
-    link: string;
-    description: string;
-  }[];
-  education: {
-    institution: string;
-    degree: string;
-    startDate: string;
-    endDate: string;
-  }[];
-  languages: {
-    language: string;
-    level: string;
-  }[];
-  skills: string[];
-}
 
 export function OnboardingForm() {
   const router = useRouter();
   const [skillInput, setSkillInput] = useState("");
+  const {
+    execute: editUserProfile,
+    result,
+    isExecuting,
+  } = useAction(editUserProfileAction, {
+    onSuccess(args) {
+      toast.success("Perfil salvo com sucesso!", {
+        description: "Enviando você para seu dashboard",
+      });
+
+      router.push("/applications");
+    },
+    onError(args) {
+      toast.error("Ocorreu um erro ao atualizar seu perfil");
+    },
+  });
 
   const form = useForm({
     defaultValues: {
@@ -131,23 +70,12 @@ export function OnboardingForm() {
       education: [],
       languages: [],
       skills: [],
-    } as FormValues,
+    } as z.infer<typeof formSchema>,
     validators: {
       onSubmit: formSchema,
     },
     async onSubmit({ value }) {
-      console.log(value);
-      const { error } = await authClient.updateUser({
-        name: value.name,
-      });
-
-      if (error) {
-        toast.error("Erro ao salvar perfil. Tente novamente mais tarde");
-        return;
-      }
-
-      toast.success("Perfil salvo com sucesso!");
-      router.push("/");
+      editUserProfile(value);
     },
   });
 
@@ -947,8 +875,14 @@ export function OnboardingForm() {
         />
       </FieldSet>
 
-      <Button className="w-full mt-8" type="submit">
-        Finalizar Perfil
+      <Button disabled={isExecuting} className="w-full mt-8" type="submit">
+        {isExecuting ? (
+          <>
+            <Loader2Icon className="animate-spin" /> Salvando perifl...
+          </>
+        ) : (
+          "Salvar perfil"
+        )}
       </Button>
     </form>
   );
