@@ -44,7 +44,7 @@ export function VerifyForm({ email }: { email: string }) {
       }
 
       if (data.user.name) {
-        router.push(`/applications`);
+        router.push(`/`);
         return;
       }
 

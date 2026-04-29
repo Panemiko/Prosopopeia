@@ -5,9 +5,9 @@
 - [x] Criar a primeira página (login)
 - [x] Criar página de verificação
 - [x] Configurar o E-mail OTP do Better Auth
-- [ ] Integrar a autenticação com as páginas de login
-- [ ] Criar o formulário de cadastro de informações
-- [ ] Implementar formulário na página de onboarding
+- [x] Integrar a autenticação com as páginas de login
+- [x] Criar o formulário de cadastro de informações
+- [x] Implementar formulário na página de onboarding
 - [ ] Adicionar "profile" no schema do DB
 - [ ] Registrar informações no DB
 
