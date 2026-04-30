@@ -17,8 +17,10 @@ export const application = pgTable("application", {
   name: text("name"),
   company: text("company"),
   description: text("description").notNull(),
-  userId: text("user_id").notNull(),
-  latexContent: text("user_id"),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  latexContent: text("latex_content"),
 });
 
 export const applicationRelations = relations(application, ({ one }) => ({

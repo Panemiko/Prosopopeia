@@ -20,7 +20,7 @@
 - [x] Criar novo campo no DB pro LaTeX
 - [x] Salvar no DB na rota
 - [ ] Adicionar tool para edição das informações da vaga
-- [ ] Integrar criação no servidor com o modal
+- [x] Integrar criação no servidor com o modal
 
 - [ ] Criar a página da vaga com dados em mockup
 - [ ] Integrar página com a vaga no DB

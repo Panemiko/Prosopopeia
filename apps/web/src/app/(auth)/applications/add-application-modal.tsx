@@ -19,8 +19,10 @@ import {
 } from "@prosopopeia/ui/components/sheet";
 import { Textarea } from "@prosopopeia/ui/components/textarea";
 import { useForm } from "@tanstack/react-form";
-import { PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import z from "zod";
 
 const formSchema = z.object({
@@ -28,11 +30,23 @@ const formSchema = z.object({
 });
 
 export function AddApplicationModal() {
-  const { executeAsync: addApplication } = useAction(addNewApplicationAction, {
-    onSuccess(args) {
-      console.log(args);
+  const router = useRouter();
+  const { executeAsync: addApplication, isExecuting } = useAction(
+    addNewApplicationAction,
+    {
+      onSuccess(args) {
+        toast.success("Vaga adicionada com sucesso", {
+          description: "Redirecionaremos você em breve",
+        });
+
+        router.push(`/applications/${args.data.applicationId}`);
+      },
+      onError(args) {
+        toast.error("Algo deu errado. Tente novamente mais tarde");
+      },
     },
-  });
+  );
+
   const form = useForm({
     defaultValues: {
       jobDescription: "",
@@ -103,8 +117,17 @@ export function AddApplicationModal() {
             className="w-full mt-4"
             form="add-application-modal-form"
             type="submit"
+            disabled={isExecuting}
           >
-            <PlusIcon /> Adicionar vaga
+            {isExecuting ? (
+              <>
+                <Loader2Icon className="animate-spin" /> Adicionando vaga...
+              </>
+            ) : (
+              <>
+                <PlusIcon /> Adicionar vaga
+              </>
+            )}
           </Button>
         </SheetFooter>
       </SheetContent>

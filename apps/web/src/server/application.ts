@@ -28,7 +28,7 @@ export const addNewApplicationAction = privateActionClient
       messages: [
         {
           content: `Informações do candidato:\n\n${completeUserProfileAsString}`,
-          role: "system",
+          role: "user",
         },
         {
           content: `Descrição da vaga:\n\n${parsedInput.jobDescription}`,
@@ -45,7 +45,7 @@ export const addNewApplicationAction = privateActionClient
         userId: ctx.user.id,
         latexContent: result.text,
       })
-      .returning({ id: application.id });
+      .returning();
 
     if (!newApplication[0].id) {
       throw new Error("Não foi possível criar o item");
