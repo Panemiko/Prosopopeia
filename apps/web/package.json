@@ -8,12 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.66",
     "@hookform/resolvers": "^5.2.2",
     "@prosopopeia/auth": "workspace:*",
     "@prosopopeia/db": "workspace:*",
     "@prosopopeia/env": "workspace:*",
     "@prosopopeia/ui": "workspace:*",
     "@tanstack/react-form": "^1.28.0",
+    "ai": "^6.0.171",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",
     "dotenv": "catalog:",

@@ -14,8 +14,8 @@
 - [x] Listagem de vagas com mockup
 - [x] Criar o modal
 - [x] Adicionar "vagas" no schema do DB
-- [ ] Listagem funcionando com dados reais
-- [ ] Configurar uso da IA no projeto
+- [x] Listagem funcionando com dados reais
+- [x] Configurar uso da IA no projeto
 - [ ] Fazer rota de criação da vaga
 - [ ] Adicionar tool para edição das informações da vaga
 - [ ] Integrar criação no servidor com o modal
