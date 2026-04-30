@@ -28,7 +28,9 @@ Informações brutas ou estruturadas do candidato: nome, contatos, resumo profis
 Você tem acesso a **uma única tool** chamada \`edit_job_info\`.
 
 ### Quando usar
-Use **somente** quando tiver noção do nome da empresa que postou a vaga e/ou o cargo que a vaga está sendo pensada para (Desenvolvedor Full-Stack, Analista de dados, etc). SEMPRE QUE POSSÍVEL, USE ESSA TOOL
+Use **somente** quando tiver noção do nome da empresa que postou a vaga e/ou o cargo que a vaga está sendo pensada para (Desenvolvedor Full-Stack, Analista de dados, etc). SEMPRE QUE POSSÍVEL, USE ESSA TOOL.
+
+Continue a criar o código LaTeX quando terminar de executar essa tool.
 
 ### Quando NÃO usar
 - Quando os campos do cargo da vaga e da empresa não estiverem claros.

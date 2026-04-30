@@ -2,7 +2,7 @@
 
 import { db } from "@prosopopeia/db";
 import { application } from "@prosopopeia/db/schema/index";
-import { generateText, tool } from "ai";
+import { generateText, stepCountIs, tool } from "ai";
 import z from "zod";
 import { privateActionClient } from ".";
 import { google } from "./utils/ai";
@@ -30,6 +30,7 @@ export const addNewApplicationAction = privateActionClient
 
     const result = await generateText({
       model: google("gemini-2.5-flash"),
+      stopWhen: stepCountIs(5),
       messages: [
         {
           content: `Informações do candidato:\n\n${completeUserProfileAsString}`,
@@ -69,9 +70,13 @@ export const addNewApplicationAction = privateActionClient
       system: generateLatexSystemPrompt,
     });
 
+    console.log(result.text);
+
     const latexContentCleaned = result.text
-      .replaceAll("```latex ", "")
-      .replaceAll("```", "");
+      .replace("```latex ", "")
+      .replace("```", "");
+
+    console.log(latexContentCleaned);
 
     const newApplication = await db
       .insert(application)
