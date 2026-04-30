@@ -12,8 +12,8 @@
 - [x] Registrar informações no DB
 
 - [x] Listagem de vagas com mockup
-- [ ] Criar o modal
-- [ ] Adicionar "vagas" no schema do DB
+- [x] Criar o modal
+- [x] Adicionar "vagas" no schema do DB
 - [ ] Listagem funcionando com dados reais
 - [ ] Configurar uso da IA no projeto
 - [ ] Fazer rota de criação da vaga
