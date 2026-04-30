@@ -14,10 +14,11 @@ export const application = pgTable("application", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 
-  name: text("name").notNull(),
-  company: text("company").notNull(),
+  name: text("name"),
+  company: text("company"),
   description: text("description").notNull(),
   userId: text("user_id").notNull(),
+  latexContent: text("user_id"),
 });
 
 export const applicationRelations = relations(application, ({ one }) => ({

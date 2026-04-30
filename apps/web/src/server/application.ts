@@ -1,5 +1,7 @@
 "use server";
 
+import { db } from "@prosopopeia/db";
+import { application } from "@prosopopeia/db/schema/index";
 import { generateText } from "ai";
 import z from "zod";
 import { privateActionClient } from ".";
@@ -36,5 +38,20 @@ export const addNewApplicationAction = privateActionClient
       system: generateLatexSystemPrompt,
     });
 
-    console.log(result.content);
+    const newApplication = await db
+      .insert(application)
+      .values({
+        description: parsedInput.jobDescription,
+        userId: ctx.user.id,
+        latexContent: result.text,
+      })
+      .returning({ id: application.id });
+
+    if (!newApplication[0].id) {
+      throw new Error("Não foi possível criar o item");
+    }
+
+    return {
+      applicationId: newApplication[0].id,
+    };
   });

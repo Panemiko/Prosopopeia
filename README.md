@@ -17,6 +17,8 @@
 - [x] Listagem funcionando com dados reais
 - [x] Configurar uso da IA no projeto
 - [x] Fazer rota de criação da vaga
+- [x] Criar novo campo no DB pro LaTeX
+- [x] Salvar no DB na rota
 - [ ] Adicionar tool para edição das informações da vaga
 - [ ] Integrar criação no servidor com o modal
 
