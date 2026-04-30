@@ -7,8 +7,9 @@ import {
   CardTitle,
 } from "@prosopopeia/ui/components/card";
 import { generate } from "geopattern";
-import { ArrowRightIcon, PlusIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import { AddApplicationModal } from "./add-application-modal";
 
 const applicationMock = [
   {
@@ -48,9 +49,7 @@ export default async function Page() {
     <MaxWidth>
       <div className="flex justify-between gap-6 mb-4">
         <h1 className="text-2xl font-bold">Suas últimas vagas</h1>
-        <Button>
-          <PlusIcon /> Adicionar nova vaga{" "}
-        </Button>
+        <AddApplicationModal />
       </div>
 
       <div>
