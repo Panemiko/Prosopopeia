@@ -9,9 +9,9 @@
 - [x] Criar o formulário de cadastro de informações
 - [x] Implementar formulário na página de onboarding
 - [x] Adicionar "profile" no schema do DB
-- [ ] Registrar informações no DB
+- [x] Registrar informações no DB
 
-- [ ] Listagem de vagas com mockup
+- [x] Listagem de vagas com mockup
 - [ ] Criar o modal
 - [ ] Adicionar "vagas" no schema do DB
 - [ ] Listagem funcionando com dados reais

@@ -1,5 +1,4 @@
 import { MaxWidth } from "@/components/max-width";
-import { auth } from "@prosopopeia/auth";
 import {
   Card,
   CardContent,
@@ -7,21 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@prosopopeia/ui/components/card";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { OnboardingForm } from "./onboarding-form";
 
 export default async function Page() {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session?.user.id) {
-    redirect("/login");
-  }
-
-  if (session.user.name) {
-    redirect("/");
-  }
-
   return (
     <MaxWidth>
       <Card className="max-w-3xl mx-auto">

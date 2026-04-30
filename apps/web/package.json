@@ -10,13 +10,14 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@prosopopeia/auth": "workspace:*",
-    "@prosopopeia/env": "workspace:*",
     "@prosopopeia/db": "workspace:*",
+    "@prosopopeia/env": "workspace:*",
     "@prosopopeia/ui": "workspace:*",
     "@tanstack/react-form": "^1.28.0",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "geopattern": "^1.2.3",
     "lucide-react": "catalog:",
     "next": "^16.2.0",
     "next-safe-action": "^8.5.2",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@prosopopeia/config": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/geopattern": "^1.2.9",
     "@types/node": "^20",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
