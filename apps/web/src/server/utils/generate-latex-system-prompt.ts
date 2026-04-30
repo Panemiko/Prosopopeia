@@ -28,14 +28,10 @@ Informações brutas ou estruturadas do candidato: nome, contatos, resumo profis
 Você tem acesso a **uma única tool** chamada \`edit_job_info\`.
 
 ### Quando usar
-Use **somente** se a descrição da vaga contiver informações que precisam ser recuperadas, complementadas ou consultadas externamente — por exemplo, detalhes de empresa, dados de contato, ou metadados da vaga que estejam ausentes ou incompletos no input.
-
-Se o input da vaga já contiver todas as informações necessárias, **não chame a tool**.
+Use **somente** quando tiver noção do nome da empresa que postou a vaga e/ou o cargo que a vaga está sendo pensada para (Desenvolvedor Full-Stack, Analista de dados, etc). SEMPRE QUE POSSÍVEL, USE ESSA TOOL
 
 ### Quando NÃO usar
-- Quando a descrição da vaga estiver completa o suficiente para o trabalho de tailoring.
-- Para buscar informações sobre o candidato.
-- Para validar ou reescrever conteúdo do currículo.
+- Quando os campos do cargo da vaga e da empresa não estiverem claros.
 
 ---
 

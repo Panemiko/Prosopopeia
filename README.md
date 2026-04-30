@@ -19,7 +19,8 @@
 - [x] Fazer rota de criação da vaga
 - [x] Criar novo campo no DB pro LaTeX
 - [x] Salvar no DB na rota
-- [ ] Adicionar tool para edição das informações da vaga
+- [x] Adicionar tool para edição das informações da vaga
+- [x] Arrumar system prompt
 - [x] Integrar criação no servidor com o modal
 
 - [ ] Criar a página da vaga com dados em mockup

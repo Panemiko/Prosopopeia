@@ -2,7 +2,7 @@
 
 import { db } from "@prosopopeia/db";
 import { application } from "@prosopopeia/db/schema/index";
-import { generateText } from "ai";
+import { generateText, tool } from "ai";
 import z from "zod";
 import { privateActionClient } from ".";
 import { google } from "./utils/ai";
@@ -23,6 +23,11 @@ export const addNewApplicationAction = privateActionClient
       2,
     );
 
+    let applicationMeta = {
+      name: undefined as string | undefined,
+      company: undefined as string | undefined,
+    };
+
     const result = await generateText({
       model: google("gemini-2.5-flash"),
       messages: [
@@ -35,15 +40,47 @@ export const addNewApplicationAction = privateActionClient
           role: "user",
         },
       ],
+      tools: {
+        edit_job_info: tool({
+          description:
+            "Extrai e registra o nome da empresa e o cargo da vaga com base na descrição fornecida. Esta ferramenta deve ser chamada para processar os metadados da vaga.",
+          inputSchema: z.object({
+            company: z
+              .string()
+              .describe("O nome da empresa que postou a vaga")
+              .optional(),
+            name: z
+              .string()
+              .describe(
+                "O cargo requerido para vaga (Desenvolvedor Full-Stack, Designer UX, etc)",
+              )
+              .optional(),
+          }),
+          execute: async ({ company, name }) => {
+            console.log("> Executando tool");
+
+            applicationMeta = {
+              company,
+              name,
+            };
+          },
+        }),
+      },
       system: generateLatexSystemPrompt,
     });
+
+    const latexContentCleaned = result.text
+      .replaceAll("```latex ", "")
+      .replaceAll("```", "");
 
     const newApplication = await db
       .insert(application)
       .values({
         description: parsedInput.jobDescription,
         userId: ctx.user.id,
-        latexContent: result.text,
+        latexContent: latexContentCleaned,
+        company: applicationMeta.company,
+        name: applicationMeta.name,
       })
       .returning();
 
