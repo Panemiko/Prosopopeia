@@ -1,5 +1,6 @@
 "use client";
 
+import { addNewApplicationAction } from "@/server/application";
 import { Button } from "@prosopopeia/ui/components/button";
 import {
   Field,
@@ -19,7 +20,7 @@ import {
 import { Textarea } from "@prosopopeia/ui/components/textarea";
 import { useForm } from "@tanstack/react-form";
 import { PlusIcon } from "lucide-react";
-import { toast } from "sonner";
+import { useAction } from "next-safe-action/hooks";
 import z from "zod";
 
 const formSchema = z.object({
@@ -27,6 +28,11 @@ const formSchema = z.object({
 });
 
 export function AddApplicationModal() {
+  const { executeAsync: addApplication } = useAction(addNewApplicationAction, {
+    onSuccess(args) {
+      console.log(args);
+    },
+  });
   const form = useForm({
     defaultValues: {
       jobDescription: "",
@@ -35,7 +41,7 @@ export function AddApplicationModal() {
       onSubmit: formSchema,
     },
     async onSubmit({ value }) {
-      toast("Formulário enviado");
+      await addApplication(value);
     },
   });
 

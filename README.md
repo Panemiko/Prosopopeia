@@ -16,7 +16,7 @@
 - [x] Adicionar "vagas" no schema do DB
 - [x] Listagem funcionando com dados reais
 - [x] Configurar uso da IA no projeto
-- [ ] Fazer rota de criação da vaga
+- [x] Fazer rota de criação da vaga
 - [ ] Adicionar tool para edição das informações da vaga
 - [ ] Integrar criação no servidor com o modal
 
