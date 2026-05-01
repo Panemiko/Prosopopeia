@@ -72,13 +72,9 @@ export const addNewApplicationAction = privateActionClient
       system: generateLatexSystemPrompt,
     });
 
-    console.log(result.text);
-
     const latexContentCleaned = result.text
       .replace("```latex ", "")
       .replace("```", "");
-
-    console.log(latexContentCleaned);
 
     const newApplication = await db
       .insert(application)
@@ -98,6 +94,113 @@ export const addNewApplicationAction = privateActionClient
     return {
       applicationId: newApplication[0].id,
     };
+  });
+
+export const updateApplicationLatexAction = privateActionClient
+  .inputSchema(
+    z.object({
+      applicationId: z.string(),
+      latexContent: z.string(),
+    }),
+  )
+  .action(async ({ parsedInput, ctx }) => {
+    await db
+      .update(application)
+      .set({
+        latexContent: parsedInput.latexContent,
+      })
+      .where(
+        and(
+          eq(application.id, parsedInput.applicationId),
+          eq(application.userId, ctx.user.id),
+        ),
+      );
+
+    return { success: true };
+  });
+
+export const regenerateApplicationLatexAction = privateActionClient
+  .inputSchema(
+    z.object({
+      applicationId: z.string(),
+    }),
+  )
+  .action(async ({ parsedInput, ctx }) => {
+    const queriedApplications = await db
+      .select({
+        description: application.description,
+      })
+      .from(application)
+      .where(
+        and(
+          eq(application.id, parsedInput.applicationId),
+          eq(application.userId, ctx.user.id),
+        ),
+      )
+      .limit(1);
+
+    if (!queriedApplications[0]) {
+      throw new Error("Vaga não encontrada");
+    }
+
+    const completeUserProfile = {
+      name: ctx.user.name,
+      email: ctx.user.email,
+      ...JSON.parse(ctx.user.profileJson),
+    };
+
+    const completeUserProfileAsString = JSON.stringify(
+      completeUserProfile,
+      undefined,
+      2,
+    );
+
+    const result = await generateText({
+      model: google("gemini-2.5-flash"),
+      messages: [
+        {
+          content: `Informações do candidato:\n\n${completeUserProfileAsString}`,
+          role: "user",
+        },
+        {
+          content: `Descrição da vaga:\n\n${queriedApplications[0].description}`,
+          role: "user",
+        },
+      ],
+      system: generateLatexSystemPrompt,
+    });
+
+    const latexContentCleaned = result.text
+      .replace("```latex ", "")
+      .replace("```", "");
+
+    await db
+      .update(application)
+      .set({
+        latexContent: latexContentCleaned,
+      })
+      .where(eq(application.id, parsedInput.applicationId));
+
+    return { success: true };
+  });
+
+export const deleteApplicationAction = privateActionClient
+  .inputSchema(
+    z.object({
+      applicationId: z.string(),
+    }),
+  )
+  .action(async ({ parsedInput, ctx }) => {
+    await db
+      .delete(application)
+      .where(
+        and(
+          eq(application.id, parsedInput.applicationId),
+          eq(application.userId, ctx.user.id),
+        ),
+      );
+
+    return { success: true };
   });
 
 export const exportPDFFromApplicationLatexAction = privateActionClient

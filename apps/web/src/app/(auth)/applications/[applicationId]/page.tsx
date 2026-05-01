@@ -2,7 +2,6 @@ import { MaxWidth } from "@/components/max-width";
 import { auth } from "@prosopopeia/auth";
 import { and, db, eq } from "@prosopopeia/db";
 import { application } from "@prosopopeia/db/schema/index";
-import { Button } from "@prosopopeia/ui/components/button";
 
 import {
   Card,
@@ -12,12 +11,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@prosopopeia/ui/components/card";
-import { RefreshCwIcon, TrashIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import z from "zod";
+import { DeleteButton } from "./delete-button";
 import { ExportButton } from "./export-button";
 import { LatexEditor } from "./latex-editor";
+import { RegenerateButton } from "./regenerate-button";
 
 export default async function Page({
   params,
@@ -84,16 +84,22 @@ export default async function Page({
           </CardFooter>
         </Card>
         <Card>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-2 pt-6">
             <div className="flex justify-between gap-4">
-              <Button variant="secondary" size="icon">
-                <RefreshCwIcon />
-              </Button>
-              <Button variant="destructive">
-                <TrashIcon /> Excluir vaga
-              </Button>
+              <RegenerateButton applicationId={myApplication.id} />
+              <DeleteButton applicationId={myApplication.id} />
             </div>
             <ExportButton applicationId={myApplication.id} />
+          </CardContent>
+        </Card>
+        <Card className="mt-8">
+          <CardHeader>
+            <CardTitle className="text-sm">Descrição da vaga</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-xs text-muted-foreground whitespace-pre-wrap">
+              {myApplication.description}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -105,7 +111,11 @@ export default async function Page({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <LatexEditor defaultContent={myApplication.latexContent} />
+          <LatexEditor
+            key={myApplication.latexContent}
+            applicationId={myApplication.id}
+            defaultContent={myApplication.latexContent}
+          />
         </CardContent>
       </Card>
     </MaxWidth>

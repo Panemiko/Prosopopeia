@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <div className="fixed top-0 left-0 pointer-events-none w-screen py-2">
+    <div className="fixed z-50 top-0 left-0 pointer-events-none w-screen py-2">
       <MaxWidth>
         <header className="flex bg-background pointer-events-auto border px-4 py-2 rounded-full border-border justify-between items-center">
           <div>
