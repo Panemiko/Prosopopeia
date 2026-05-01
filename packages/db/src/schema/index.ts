@@ -21,6 +21,7 @@ export const application = pgTable("application", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   latexContent: text("latex_content"),
+  exportedPdfKey: text("exported_pdf_key"),
 });
 
 export const applicationRelations = relations(application, ({ one }) => ({

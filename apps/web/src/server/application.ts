@@ -107,11 +107,6 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
     }),
   )
   .action(async ({ parsedInput, ctx }) => {
-    // Enviar para fila no bucket
-    // Registrar key no db
-    // Criar link assinado para leitura do documento
-    // Retornar pro usuário o link de leitura e o jobId
-
     const queriedApplications = await db
       .select({
         id: application.id,
@@ -146,4 +141,19 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
     const job = await queues.add("export-pdf", {
       uploadUrl: uploadPresignedUrl,
     });
+
+    await db.update(application).set({
+      exportedPdfKey: exportedFileKey,
+    });
+
+    const downloadPresignedUrl = await createPresignedUrl({
+      action: "GET",
+      filename: exportedFileKey,
+      expiresIn: 600,
+    });
+
+    return {
+      jobId: job.id,
+      pdfDownloadUrl: downloadPresignedUrl,
+    };
   });
