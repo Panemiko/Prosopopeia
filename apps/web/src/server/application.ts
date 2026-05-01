@@ -7,6 +7,7 @@ import z from "zod";
 import { privateActionClient } from ".";
 import { google } from "./utils/ai";
 import { generateLatexSystemPrompt } from "./utils/generate-latex-system-prompt";
+import { queues } from "./utils/queues";
 import { createPresignedUrl } from "./utils/r2";
 
 export const addNewApplicationAction = privateActionClient
@@ -106,8 +107,8 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
     }),
   )
   .action(async ({ parsedInput, ctx }) => {
-    // Registrar key no db
     // Enviar para fila no bucket
+    // Registrar key no db
     // Criar link assinado para leitura do documento
     // Retornar pro usuário o link de leitura e o jobId
 
@@ -136,9 +137,13 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
 
     const exportedFileKey = `exported/${queriedApplication.id}/${ctx.user.name}.pdf`;
 
-    const url = await createPresignedUrl({
+    const uploadPresignedUrl = await createPresignedUrl({
       action: "PUT",
       filename: exportedFileKey,
       expiresIn: 3600,
+    });
+
+    const job = await queues.add("export-pdf", {
+      uploadUrl: uploadPresignedUrl,
     });
   });

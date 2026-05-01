@@ -28,7 +28,7 @@
 - [x] Adicionar campo para editar o LaTeX
 - [x] Criar rota de exportação pro PDF
 - [x] Configurar o Cloudflare R2 (com as bibliotecas da AWS S3)
-- [ ] Configurar Redis (com Upstash)
+- [x] Configurar Redis (com Upstash)
 - [ ] Criar o worker
 - [ ] Integrar rota com o cliente
 
