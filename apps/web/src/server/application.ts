@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@prosopopeia/db";
+import { and, db, eq } from "@prosopopeia/db";
 import { application } from "@prosopopeia/db/schema/index";
 import { generateText, stepCountIs, tool } from "ai";
 import z from "zod";
@@ -96,4 +96,41 @@ export const addNewApplicationAction = privateActionClient
     return {
       applicationId: newApplication[0].id,
     };
+  });
+
+export const exportPDFFromApplicationLatexAction = privateActionClient
+  .inputSchema(
+    z.object({
+      applicationId: z.cuid2(),
+    }),
+  )
+  .action(async ({ parsedInput, ctx }) => {
+    // Criar o arquivo no bucket (signed)
+    // Criar um link para upload (feito pelo worker)
+    // Registrar key no db
+    // Enviar para fila no bucket
+    // Criar link assinado para leitura do documento
+    // Retornar pro usuário o link de leitura e o jobId
+
+    const queriedApplications = await db
+      .select({
+        latexContent: application.latexContent,
+      })
+      .from(application)
+      .where(
+        and(
+          eq(application.id, parsedInput.applicationId),
+          eq(application.userId, ctx.user.id),
+        ),
+      );
+
+    if (queriedApplications.length === 0) {
+      throw new Error("Application não encontrada");
+    }
+
+    const queriedApplication = queriedApplications[0];
+
+    if (!queriedApplication.latexContent) {
+      throw new Error("Conteúdo do currículo vazio. Gere um antes");
+    }
   });

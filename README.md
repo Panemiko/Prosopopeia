@@ -26,7 +26,7 @@
 - [x] Criar a página da vaga com dados em mockup
 - [x] Integrar página com a vaga no DB
 - [x] Adicionar campo para editar o LaTeX
-- [ ] Criar rota de exportação pro PDF
+- [x] Criar rota de exportação pro PDF
 - [ ] Configurar Redis (com Upstash)
 - [ ] Criar o worker
 - [ ] Configurar o Cloudflare R2 (com as bibliotecas da AWS S3)
