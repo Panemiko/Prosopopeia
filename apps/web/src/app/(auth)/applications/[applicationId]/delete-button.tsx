@@ -1,6 +1,17 @@
 "use client";
 
 import { deleteApplicationAction } from "@/server/application";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@prosopopeia/ui/components/alert-dialog";
 import { Button } from "@prosopopeia/ui/components/button";
 import { TrashIcon } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
@@ -21,16 +32,30 @@ export function DeleteButton({ applicationId }: { applicationId: string }) {
   });
 
   return (
-    <Button
-      variant="destructive"
-      disabled={isExecuting}
-      onClick={() => {
-        if (confirm("Tem certeza que deseja excluir esta vaga?")) {
-          execute({ applicationId });
-        }
-      }}
-    >
-      <TrashIcon /> {isExecuting ? "Excluindo..." : "Excluir vaga"}
-    </Button>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" disabled={isExecuting}>
+          <TrashIcon /> {isExecuting ? "Excluindo..." : "Excluir vaga"}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Você tem certeza absoluta?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Esta ação não pode ser desfeita. Isso excluirá permanentemente os
+            dados desta vaga e removerá o código LaTeX gerado.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            onClick={() => execute({ applicationId })}
+          >
+            Confirmar Exclusão
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
