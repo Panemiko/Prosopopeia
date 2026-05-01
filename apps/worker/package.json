@@ -1,0 +1,21 @@
+{
+  "name": "worker",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@prosopopeia/env": "workspace:*",
+    "bullmq": "^5.76.4",
+    "ioredis": "^5.10.1"
+  },
+  "devDependencies": {
+    "@prosopopeia/config": "workspace:*",
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "catalog:"
+  }
+}
