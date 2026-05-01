@@ -1,0 +1,53 @@
+FROM node:22-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+FROM base AS builder
+# Set working directory
+WORKDIR /app
+RUN pnpm add -g turbo@^2
+COPY . .
+RUN turbo prune worker --out-dir out
+
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+WORKDIR /app
+
+# First install dependencies
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/out/package.json ./package.json
+COPY --from=builder /app/out/pnpm-workspace.yaml ./pnpm-workspace.yaml
+# Copy all package.json files to install dependencies
+COPY --from=builder /app/out/apps/worker/package.json ./apps/worker/package.json
+COPY --from=builder /app/out/packages/ ./packages/
+# Find and keep only package.json files in packages to leverage cache
+RUN find packages -name "package.json" -mindepth 1 -maxdepth 2 -not -path "*/node_modules/*"
+
+RUN pnpm install --frozen-lockfile
+
+# Build the project and its dependencies
+COPY --from=builder /app/out/ .
+RUN pnpm turbo build --filter=worker...
+
+FROM base AS runner
+WORKDIR /app
+
+# Install LaTeX dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    texlive-latex-base \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    && rm -rf /var/lib/apt/lists/*
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nodeuser
+USER nodeuser
+
+COPY --from=installer /app .
+
+# Set environment variables
+ENV NODE_ENV=production
+
+CMD ["node", "apps/worker/dist/index.js"]
