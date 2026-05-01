@@ -32,20 +32,29 @@ const worker = new Worker(
     const pdfFilePath = join(workDir, "main.pdf");
 
     try {
+      // Escape unescaped ampersands to prevent LaTeX compilation errors
+      // Matches '&' only if not preceded by '\'
+      const safeLatexContent = latexContent.replace(/(?<!\\)&/g, "\\&");
+
       // Write latex content to file
-      writeFileSync(texFilePath, latexContent);
+      writeFileSync(texFilePath, safeLatexContent);
 
       console.log(`Compiling LaTeX for job ${job.id}...`);
 
       // Run pdflatex
-      // -interaction=nonstopmode ensures it doesn't hang on errors.
-      // We wrap paths in quotes to handle potential spaces.
-      execSync(
-        `pdflatex -interaction=nonstopmode -output-directory="${workDir}" "${texFilePath}"`,
-        {
-          stdio: "inherit",
-        },
-      );
+      try {
+        execSync(
+          `pdflatex -interaction=nonstopmode -output-directory="${workDir}" "${texFilePath}"`,
+          {
+            stdio: "inherit",
+          },
+        );
+      } catch (compileError) {
+        // pdflatex often returns status 1 even if it produces a PDF (due to warnings/minor errors)
+        console.warn(
+          `pdflatex exited with an error for job ${job.id}, checking if PDF was still generated...`,
+        );
+      }
 
       if (!existsSync(pdfFilePath)) {
         throw new Error("PDF file was not generated. Check LaTeX logs.");
