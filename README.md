@@ -37,9 +37,9 @@
 - [x] Edição do perfil
 - [x] Editar as informações da vaga (salvar o latex)
 - [x] Regenerar o código latex
-- [ ] Adicionar um documento padrão no system prompt.
+- [x] Adicionar um documento padrão no system prompt.
 - [x] Adicionar no header as páginas do site
-- [ ] Juntar as ações com o header da application
+- [x] Juntar as ações com o header da application
 - [x] Logo no header para ir para home/applications
-- [ ] Adicionar banner image do application na página individual
+- [x] Adicionar banner image do application na página individual
 - [ ] Projeto em produção (Vercel)
