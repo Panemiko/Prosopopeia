@@ -69,30 +69,26 @@ export default async function Page({
     <MaxWidth className="grid grid-cols-8 gap-8">
       <div className="col-span-3">
         <Card className="mb-8">
-          <CardHeader className="mb-6">
+          <CardHeader>
             <h1 className="text-2xl mb-2 font-heading font-bold">
               {myApplication.name ?? `Posição desconhecida #${applicationHash}`}
             </h1>
             <span className="text-muted-foreground text-sm">
-              {myApplication.company ?? `Empresa desconhecida`}
+              {myApplication.company ?? `Empresa desconhecida`}{" "}
             </span>
-          </CardHeader>
-          <CardFooter>
             <span className="text-muted-foreground text-xs">
               Criado em {myApplication.createdAt.toLocaleDateString("pt-BR")}
             </span>
-          </CardFooter>
-        </Card>
-        <Card>
-          <CardContent className="space-y-2 pt-6">
-            <div className="flex justify-between gap-4">
+          </CardHeader>
+          <CardFooter className="flex flex-col space-y-2">
+            <div className="flex justify-between gap-4 w-full">
               <RegenerateButton applicationId={myApplication.id} />
               <DeleteButton applicationId={myApplication.id} />
             </div>
             <ExportButton applicationId={myApplication.id} />
-          </CardContent>
+          </CardFooter>
         </Card>
-        <Card className="mt-8">
+        <Card>
           <CardHeader>
             <CardTitle className="text-sm">Descrição da vaga</CardTitle>
           </CardHeader>
