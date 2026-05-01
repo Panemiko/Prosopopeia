@@ -1,11 +1,26 @@
 import { env } from "@prosopopeia/env/server";
 import { Worker } from "bullmq";
+import { createReadStream, statSync } from "fs";
+
+const filePath = "./package.json";
+const fileStream = createReadStream(filePath);
+const fileSize = statSync(filePath).size;
 
 const worker = new Worker(
   "prosopopeia-queue",
   async (job) => {
     console.log(`Processing job ${job.id} with data:`, job.data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    await fetch(job.data.uploadUrl, {
+      method: "PUT",
+      body: fileStream,
+      duplex: "half",
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Length": fileSize.toString(),
+      },
+    });
+
     return { status: "completed" };
   },
   {

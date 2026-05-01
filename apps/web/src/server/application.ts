@@ -140,7 +140,12 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
 
     const job = await queues.add("export-pdf", {
       uploadUrl: uploadPresignedUrl,
+      ownerId: ctx.user.id,
     });
+
+    if (!job || !job.id) {
+      throw new Error("Não foi possível criar o job");
+    }
 
     await db.update(application).set({
       exportedPdfKey: exportedFileKey,

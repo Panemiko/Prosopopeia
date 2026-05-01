@@ -12,7 +12,7 @@ export const env = createEnv({
     ACCOUNT_ID: z.string().min(1),
     ACCESS_KEY_ID: z.string().min(1),
     SECRET_ACCESS_KEY: z.string().min(1),
-    UPSTASH_REDIS_REST_URL: z.url(),
+    UPSTASH_REDIS_REST_URL: z.string().min(1),
     UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
     NODE_ENV: z
       .enum(["development", "production", "test"])

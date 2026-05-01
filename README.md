@@ -30,8 +30,9 @@
 - [x] Configurar o Cloudflare R2 (com as bibliotecas da AWS S3)
 - [x] Configurar Redis (com Upstash)
 - [x] Completar rota
-- [ ] Criar o worker
-- [ ] Integrar rota com o cliente
+- [x] Criar o worker
+- [x] Integrar rota com o cliente
+- [ ] Escrever o worker
 
 - [ ] Edição do perfil
 - [ ] Editar as informações da vaga

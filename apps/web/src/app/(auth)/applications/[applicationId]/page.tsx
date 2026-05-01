@@ -12,10 +12,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@prosopopeia/ui/components/card";
-import { DownloadIcon, RefreshCwIcon, TrashIcon } from "lucide-react";
+import { RefreshCwIcon, TrashIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import z from "zod";
+import { ExportButton } from "./export-button";
 import { LatexEditor } from "./latex-editor";
 
 export default async function Page({
@@ -92,9 +93,7 @@ export default async function Page({
                 <TrashIcon /> Excluir vaga
               </Button>
             </div>
-            <Button className="w-full">
-              <DownloadIcon /> Exportar PDF
-            </Button>
+            <ExportButton applicationId={myApplication.id} />
           </CardContent>
         </Card>
       </div>
