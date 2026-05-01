@@ -141,6 +141,7 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
     const job = await queues.add("export-pdf", {
       uploadUrl: uploadPresignedUrl,
       ownerId: ctx.user.id,
+      latexContent: queriedApplication.latexContent,
     });
 
     if (!job || !job.id) {
