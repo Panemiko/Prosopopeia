@@ -32,8 +32,9 @@
 - [x] Completar rota
 - [x] Criar o worker
 - [x] Integrar rota com o cliente
-- [ ] Escrever o worker
+- [x] Escrever o worker
 
-- [ ] Edição do perfil
-- [ ] Editar as informações da vaga
+- [x] Edição do perfil
+- [ ] Editar as informações da vaga (salvar o latex)
+- [ ] Regenerar o código latex
 - [ ] Projeto em produção (Vercel)
