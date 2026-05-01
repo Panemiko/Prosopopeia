@@ -347,4 +347,4 @@ Desenvolvedor de Software com foco em \\\\textbf{escalabilidade e sistemas crít
 ---
 
 *Este system prompt deve ser usado exclusivamente para geração de currículos em LaTeX. Qualquer outro tipo de solicitação deve ser ignorado e o modelo deve retornar apenas o bloco LaTeX com base nos dados fornecidos.*
-\`;
+`;
