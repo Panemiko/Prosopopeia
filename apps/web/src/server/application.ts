@@ -7,6 +7,7 @@ import z from "zod";
 import { privateActionClient } from ".";
 import { google } from "./utils/ai";
 import { generateLatexSystemPrompt } from "./utils/generate-latex-system-prompt";
+import { createPresignedUrl } from "./utils/r2";
 
 export const addNewApplicationAction = privateActionClient
   .inputSchema(z.object({ jobDescription: z.string().trim().min(1) }))
@@ -105,8 +106,6 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
     }),
   )
   .action(async ({ parsedInput, ctx }) => {
-    // Criar o arquivo no bucket (signed)
-    // Criar um link para upload (feito pelo worker)
     // Registrar key no db
     // Enviar para fila no bucket
     // Criar link assinado para leitura do documento
@@ -114,6 +113,7 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
 
     const queriedApplications = await db
       .select({
+        id: application.id,
         latexContent: application.latexContent,
       })
       .from(application)
@@ -133,4 +133,12 @@ export const exportPDFFromApplicationLatexAction = privateActionClient
     if (!queriedApplication.latexContent) {
       throw new Error("Conteúdo do currículo vazio. Gere um antes");
     }
+
+    const exportedFileKey = `exported/${queriedApplication.id}/${ctx.user.name}.pdf`;
+
+    const url = await createPresignedUrl({
+      action: "PUT",
+      filename: exportedFileKey,
+      expiresIn: 3600,
+    });
   });

@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.66",
+    "@aws-sdk/client-s3": "^3.1041.0",
+    "@aws-sdk/s3-request-presigner": "^3.1041.0",
     "@hookform/resolvers": "^5.2.2",
     "@prosopopeia/auth": "workspace:*",
     "@prosopopeia/db": "workspace:*",

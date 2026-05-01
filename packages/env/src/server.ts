@@ -9,6 +9,9 @@ export const env = createEnv({
     BETTER_AUTH_URL: z.url(),
     CORS_ORIGIN: z.url(),
     GOOGLE_AI_API_KEY: z.string().min(1),
+    ACCOUNT_ID: z.string().min(1),
+    ACCESS_KEY_ID: z.string().min(1),
+    SECRET_ACCESS_KEY: z.string().min(1),
     NODE_ENV: z
       .enum(["development", "production", "test"])
       .default("development"),
