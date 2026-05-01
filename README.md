@@ -25,7 +25,7 @@
 
 - [x] Criar a página da vaga com dados em mockup
 - [x] Integrar página com a vaga no DB
-- [ ] Adicionar campo para editar o LaTeX
+- [x] Adicionar campo para editar o LaTeX
 - [ ] Criar rota de exportação pro PDF
 - [ ] Configurar Redis (com Upstash)
 - [ ] Criar o worker

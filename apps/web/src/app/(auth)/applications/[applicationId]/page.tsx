@@ -3,16 +3,20 @@ import { auth } from "@prosopopeia/auth";
 import { and, db, eq } from "@prosopopeia/db";
 import { application } from "@prosopopeia/db/schema/index";
 import { Button } from "@prosopopeia/ui/components/button";
+
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@prosopopeia/ui/components/card";
 import { DownloadIcon, RefreshCwIcon, TrashIcon } from "lucide-react";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import z from "zod";
+import { LatexEditor } from "./latex-editor";
 
 export default async function Page({
   params,
@@ -61,7 +65,7 @@ export default async function Page({
   const applicationHash = myApplication.id.slice(0, 4).toUpperCase();
 
   return (
-    <MaxWidth className="grid grid-cols-8">
+    <MaxWidth className="grid grid-cols-8 gap-8">
       <div className="col-span-3">
         <Card className="mb-8">
           <CardHeader className="mb-6">
@@ -94,6 +98,17 @@ export default async function Page({
           </CardContent>
         </Card>
       </div>
+      <Card className="col-span-5">
+        <CardHeader>
+          <CardTitle>Código LaTeX para geração do curríulo</CardTitle>
+          <CardDescription>
+            Modifique para alterar o conteúdo gerado.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <LatexEditor defaultContent={myApplication.latexContent} />
+        </CardContent>
+      </Card>
     </MaxWidth>
   );
 }
