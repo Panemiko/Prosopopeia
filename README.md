@@ -42,4 +42,4 @@
 - [x] Juntar as ações com o header da application
 - [x] Logo no header para ir para home/applications
 - [x] Adicionar banner image do application na página individual
-- [ ] Projeto em produção (Vercel)
+- [x] Projeto em produção (Vercel)
